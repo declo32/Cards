@@ -1,5 +1,10 @@
-class Card:
+import random
 
+
+class Card:
+    """The basic representation of a card"""
+
+    values = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
     suits = [("Hearts", "R"), ("Diamonds", "R"), ("Spades", "B"), ("Clubs", "B")]
 
     def __init__(self, value, suit, color):
@@ -7,24 +12,33 @@ class Card:
         self.suit = suit
         self.color = color
 
-        self.name = suit[0] + str(value)
+        self.name = str(value) + suit[0]
 
     def __repr__(self):
-        return str(self.value) + " of " + str(self.suit)
+        return self.name
 
 
 class Pile:
+    """Multiple cards in a set"""
 
     def __init__(self, *args):
-        self.cards = set(args)
+        self.cards = list(args)
 
     def __repr__(self):
         return str(self.cards)
 
+    def shuffle(self):
+        random.shuffle(self.cards)
+
+    def unshuffle(self):
+        self.cards.sort(key=lambda card: card.name[:0])
+
     def add(self, card):
+        """Adds a card object 'card'"""
         self.cards.append(card)
 
     def take(self, card):
+        """Removes all card objects with name 'card'"""
         outlaws = []
         
         for c in self.cards:
@@ -36,18 +50,18 @@ class Pile:
 
 
 class Deck(Pile):
+    """52 card Pile, 13 of each suit"""
 
-    # LEFT OFF HERE AND I HATE IT
-    default_ = "DONT KNOW"
+    start = [Card(value, suit, color)
+             for value in Card.values
+             for suit, color in Card.suits]
     
-    def __init__(self, [Card(value, suit, color) for ])
+    def __init__(self):
+        Pile.__init__(self, *Deck.start)
+        self.unshuffle()
 
 if __name__ == "__main__":
-    c = Card(2, Card.suits[0][0], Card.suits[0][1])
-    d = Card(3, Card.suits[1][0], Card.suits[1][1])
+    # debug stuff
     
-    p = Pile(c, d)
-    p.take("D3")
-    
-    print(c)
-    print(p)
+    d = Deck()
+    print(d)
